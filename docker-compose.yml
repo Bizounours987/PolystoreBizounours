@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+    container_name: polystore_web
+    volumes:
+      - ./php:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: docker.io/library/mariadb
+    container_name: polystore_db
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+      MYSQL_DATABASE: polystore
+      MYSQL_USER: polystore
+      MYSQL_PASSWORD: P@ssw0rd
+    volumes:
+      - polystore_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+
+volumes:
+  polystore_data:

@@ -1,0 +1,11 @@
+routes:
+  default:
+    path: /
+    method: GET
+    redirect: /example/
+  
+  Example_getAll:
+    path: /example/
+    method: GET
+    controller: controller\ExampleController
+    action: getAll
