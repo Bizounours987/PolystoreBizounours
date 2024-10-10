@@ -1,7 +1,7 @@
 <?php
 namespace model;
 
-class Order {
+class Purchase {
 	protected int $id;
 	protected DateTime $date;
 	protected int $status;
