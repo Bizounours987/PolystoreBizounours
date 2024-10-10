@@ -1,11 +1,70 @@
 routes:
-  default:
-    path: /
-    method: GET
-    redirect: /example/
+
+    default:
+        path: /
+        method: GET
+        redirect: /index/
   
-  Example_getAll:
-    path: /example/
-    method: GET
-    controller: controller\ExampleController
-    action: getAll
+    Category_getAll:
+        path: /category/
+        method: GET
+        controller: controller\CategoryController
+        action: getAll
+
+    Category_getOne:
+        path: /category/
+        method: GET
+        controller: controller\CategoryController
+        action: getOne
+
+    Order_getAll:
+        path: /order/
+        method: GET
+        controller: controller\orderController
+        action: getAll
+
+    Order_getOne:
+        path: /order/
+        method: GET
+        controller: controller\orderController
+        action: getOne
+
+    Product_getAll:
+        path: /product/
+        method: GET
+        controller: controller\ProductController
+        action: getAll
+
+    Product_getOne:
+        path: /product/
+        method: GET
+        controller: controller\ProductController
+        action: getOne
+
+    Store_getAll:
+        path: /store/
+        method: GET
+        controller: controller\StoreController
+        action: getAll
+
+    Store_getOne:
+        path: /store/
+        method: GET
+        controller: controller\StoreController
+        action: getOne
+
+    User_getAll:
+        path: /user/
+        method: GET
+        controller: controller\UserController
+        action: getAll
+
+    User_getOne:
+        path: /user/
+        method: GET
+        controller: controller\UserController
+        action: getOne
+
+
+
+
