@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS User (
     email VARCHAR(100)
 );
 
-CREATE TABLE IF NOT EXISTS Order (
+CREATE TABLE IF NOT EXISTS Purchase (
     id INT PRIMARY KEY AUTO_INCREMENT,
     date DATE,
     status INT,
@@ -40,14 +40,14 @@ CREATE TABLE IF NOT EXISTS Categorized (
 );
 
 CREATE TABLE IF NOT EXISTS OrderLine (
-    idOrder INT,
+    idPurchase INT,
     idProduct INT,
     quantity INT,
     unitPrice FLOAT,
-    PRIMARY KEY(idOrder,idProduct)
+    PRIMARY KEY(idPurchase,idProduct)
 );
 
-ALTER TABLE Order ADD FOREIGN KEY (idUser) REFERENCES User(id);
+ALTER TABLE Purchase ADD FOREIGN KEY (idUser) REFERENCES User(id);
 
 ALTER TABLE Store ADD FOREIGN KEY (idUser) REFERENCES User(id);
 
@@ -59,6 +59,6 @@ ALTER TABLE Categorized ADD FOREIGN KEY (idProduct) REFERENCES Product(id);
 
 ALTER TABLE Categorized ADD FOREIGN KEY (idCategory) REFERENCES Category(id);
 
-ALTER TABLE OrderLine ADD FOREIGN KEY (idOrder) REFERENCES Order(id);
+ALTER TABLE OrderLine ADD FOREIGN KEY (idPurchase) REFERENCES Purchase(id);
 
 ALTER TABLE OrderLine ADD FOREIGN KEY (idProduct) REFERENCES Product(id);

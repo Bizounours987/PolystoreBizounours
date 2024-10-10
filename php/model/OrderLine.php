@@ -4,13 +4,13 @@ namespace model;
 class OrderLine {
 	protected int $quantity;
 	protected float $unitPrice;
-	protected Order $order;
+	protected Purchase $purchase;
 	protected Product $product;
 
-	function __construct(int $quantity, float $unitPrice, Order $order, Product $product) {
+	function __construct(int $quantity, float $unitPrice, Order $purchase, Product $product) {
 		$this->quantity = $quantity;
 		$this->unitPrice = $unitPrice;
-		$this->order = $order;
+		$this->purchase = $purchase;
 		$this->product = $product;
 	}
 
@@ -32,13 +32,13 @@ class OrderLine {
 		return $this->unitPrice;
 	}
 
-	public function getOrder(): Order {
-		return $this->order;
+	public function getPurchase(): Purchase {
+		return $this->purchase;
 	}
 
-	public function setOrder(Order $order): Order {
-		$this->order = $order;
-		return $this->order;
+	public function setPurchase(Purchase $purchase): Purchase {
+		$this->purchase = $purchase;
+		return $this->purchase;
 	}
 
 	public function getProduct(): Product {
