@@ -28,13 +28,13 @@ INSERT INTO Categorized (idProduct, idCategory) VALUES
 (3, 3);  -- Pâtes appartiennent à la catégorie Alimentation
 
 
-INSERT INTO Order (date, status, idUser) VALUES
+INSERT INTO Purchase (date, status, idUser) VALUES
 ('2024-10-01', 1, 1),  -- Commande d'Alice
 ('2024-10-02', 2, 2),  -- Commande de Bob
 ('2024-10-03', 1, 3);  -- Commande de Claire
 
 
-INSERT INTO OrderLine (idOrder, idProduct, quantity, unitPrice) VALUES
+INSERT INTO OrderLine (idPurchase, idProduct, quantity, unitPrice) VALUES
 (1, 1, 2, 19.99),  -- 2 Poupées dans la commande d'Alice
 (2, 2, 1, 9.99),   -- 1 Roman A dans la commande de Bob
 (3, 3, 3, 2.50);   -- 3 Paquets de Pâtes dans la commande de Claire

@@ -12,7 +12,7 @@ routes:
         action: getAll
 
     Category_getOne:
-        path: /category/
+        path: /category/{id}
         method: GET
         controller: controller\CategoryController
         action: getOne
@@ -24,7 +24,7 @@ routes:
         action: getAll
 
     Order_getOne:
-        path: /order/
+        path: /order/{id}
         method: GET
         controller: controller\orderController
         action: getOne
@@ -36,7 +36,7 @@ routes:
         action: getAll
 
     Product_getOne:
-        path: /product/
+        path: /product/{id}
         method: GET
         controller: controller\ProductController
         action: getOne
@@ -48,7 +48,7 @@ routes:
         action: getAll
 
     Store_getOne:
-        path: /store/
+        path: /store/{id}
         method: GET
         controller: controller\StoreController
         action: getOne
@@ -60,7 +60,7 @@ routes:
         action: getAll
 
     User_getOne:
-        path: /user/
+        path: /user/{id}
         method: GET
         controller: controller\UserController
         action: getOne
