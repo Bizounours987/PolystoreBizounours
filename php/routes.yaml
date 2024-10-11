@@ -3,7 +3,8 @@ routes:
     default:
         path: /
         method: GET
-        redirect: /index/
+        controller: controller\DefaultController
+        action: index
   
     Category_getAll:
         path: /category/
