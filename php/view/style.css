@@ -1,0 +1,60 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Styles des boutiques */
+.boutique {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.boutique img {
+    width: 100px; /* Taille fixe pour l'image */
+    height: auto;
+    margin-right: 20px; /* Espace entre l'image et le texte */
+    border-radius: 5px;
+    max-width: none; /* Supprime la règle max-width pour garantir une taille fixe */
+}
+
+.boutique h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333; /* Couleur du titre */
+}
+
+.boutique p {
+    margin: 5px 0;
+    color: #666; /* Couleur du texte de description */
+}
+
+/* Ajustements supplémentaires */
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
