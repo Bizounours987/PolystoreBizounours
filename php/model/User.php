@@ -54,23 +54,23 @@ class User {
 		return $this->email;
 	}
 
-	public function getOrders(): OrderCollection {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
-		return $this->orders;
+	public function getPurchases(): PurchaseCollection {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
+		return $this->purchases;
 	}
 
-	public function addOrder(Order $item): User {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
+	public function addPurchase(Purchase $item): User {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
 		$this->orders[] = $item;
 		return $this;
 	}
 
-	public function removeOrder(Order $item): User {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
-		$key = array_search($item, $this->orders);
+	public function removePurchase(Purchase $item): User {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
+		$key = array_search($item, $this->purchases);
 		if ($key !== false) {
-			unset($this->orders[$key]);
-			$this->orders = array_values($this->orders);
+			unset($this->purchases[$key]);
+			$this->orders = array_values($this->purchases);
 		}
 		return $this;
 	}
