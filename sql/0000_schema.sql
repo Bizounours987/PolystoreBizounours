@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS Purchase (
 CREATE TABLE IF NOT EXISTS Store (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50),
+    city VARCHAR(255),
+    description TEXT,
     registrationNumber VARCHAR(50),
     idUser INT
 );
