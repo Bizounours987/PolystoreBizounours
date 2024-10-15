@@ -11,6 +11,7 @@ class CategoryView {
         }
         echo "</ul>";
     }
+    // ça fonctionne
     public function renderOne($item,$products){
         if ($item) {
             echo "<h2>Détails de la catégorie</h2>";
@@ -32,6 +33,7 @@ class CategoryView {
             echo "<p>Catégorie non trouvée</p>";
         }
        
+    
     }
     
 
