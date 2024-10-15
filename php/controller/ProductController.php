@@ -11,8 +11,12 @@ class ProductController {
     function getAll() {
 
         $products = ORM::getAll(Product::class); //'model\Product'
-        ProductView::getAll($products); // Passer les produits à la vue
-    
+
+        if (empty($products)) {
+            echo 'Aucune products trouvé.';
+        } else {
+            ProductView::getAll($products); // Passer les produits à la vue
+        }
     }
 
 
@@ -21,8 +25,13 @@ class ProductController {
         echo "Controller Product getOne\n";
 
         $product = ORM::getOne(Product::class, $id); //'model\Product'
-        ProductView::getOne($product); // Passer le produit à la vue
-    
+
+        if (empty($product)) {
+            echo "Pas d'information sur ce produit.";
+        } else {
+            echo "GOOD";
+            ProductView::getOne($product); // Passer le produit à la vue
+        }
     }
 
 
