@@ -21,9 +21,11 @@ class CategoryController {
 
     public function getOne($id) {
         $category = ORM::getOne(Category::class, $id);
-        $this->categoryView->renderOne($category);
+        $products = $category->getProducts();
+        $this->categoryView->renderOne($category,$products);
     }
+
+    
 
 
 }
-
