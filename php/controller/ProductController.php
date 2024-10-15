@@ -21,15 +21,12 @@ class ProductController {
 
 
     function getOne(int $id) {
-        
-        echo "Controller Product getOne\n";
 
         $product = ORM::getOne(Product::class, $id); //'model\Product'
 
         if (empty($product)) {
             echo "Pas d'information sur ce produit.";
         } else {
-            echo "GOOD";
             ProductView::getOne($product); // Passer le produit à la vue
         }
     }

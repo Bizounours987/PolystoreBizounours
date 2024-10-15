@@ -22,20 +22,25 @@ class ProductView {
 
 
     public static function getOne($product) {
-    
-        echo "View Product getOne\n";
+        //echo '<pre>'; var_dump($product);
 
-//            $store = ORM::getOne(Store::class, $product->getStore()); // Récupérer le magasin
-//            $archName = $store->getName(); // Obtenir le nom du magasin
-//            $arch = $store->getStore();
-//            $archName = $arch->getName();
-            
+        $cats = $product->getCategories();
+
+        echo 'Liste des produits : ';
         echo '<dl>';
         echo '<dt>Reference :</dt><dd>' . $product->getReference() . '</dd>';
         echo '<dt>Label :</dt><dd>' . $product->getLabel() . '</dd>';
         echo '<dt>Prix à unité :</dt><dd>' . $product->getUnitPrice() . '</dd>';
-//        echo '<dt>Magasin :</dt><dd><a href="/archipelago/' . $store->getId() . '">' . $archName .'</dd>';
-        echo '</dl>';      
+        echo '<dt>Magasin :</dt><dd><a href="/store/' . $product->getStore()->getId() . '">' . $product->getStore()->getName() .'</a></dd>';
+        
+        if (count($cats) != 0) {
+            echo "<dt>Liste des catégories du produit :</dt><dd><ul>";
+               foreach ($cats as $cat) {
+                    echo '<li><a href="/category/' . $cat->getId() . '">' . $cat->getLabel() . '</li>';
+               }
+            echo '</ul></dd>';
+        }
+        echo '</dl>';
     }
 
 }

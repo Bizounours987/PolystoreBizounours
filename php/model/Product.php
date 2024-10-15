@@ -1,6 +1,7 @@
 <?php
 namespace model;
 
+
 class Product {
 	protected int $id;
 	protected string $reference;

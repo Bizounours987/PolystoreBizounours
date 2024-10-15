@@ -6,27 +6,29 @@ use \ReflectionClass;
 use \ReflectionProperty;
 
 /**
-* Class ORM
-*
-* Cette classe fournit des méthodes statiques pour interagir avec la base de données
-* en utilisant le mapping relationnel objet.
-* Contraintes :
-*  - la classe du modèle doit avoir le même nom que la table ;
-*  - la clé primaire de la table doit être 'id' ;
-*  - le nom des attributs de la classe doit être identique à celui des champs ;
-*  - les clés étrangères doivent être nommées 'idNomTable' et les attributs associés
-    déclarés `NomClasse $nomClasse;` ;
-*  - les collections doivent être déclarées `NomClasseCollection $nomClasseAupluriel;`.
-*/
+ * Class ORM
+ *
+ * Cette classe fournit des méthodes statiques pour interagir avec la base de données
+ * en utilisant le mapping relationnel objet.
+ * Contraintes :
+ *  - la classe du modèle doit avoir le même nom que la table ;
+ *  - la clé primaire de la table doit être 'id' ; pour les nouveaux enregistrements, 
+ *    id doit être initialisé à 0 si auto-incrémenté, 
+ *  - le nom des attributs de la classe doit être identique à celui des champs ;
+ *  - les clés étrangères doivent être nommées 'idNomTable' et les attributs associés
+ *    déclarés `NomClasse $nomClasse;` ;
+ *  - les collections doivent être déclarées `NomClasseCollection $nomClasseAupluriel;` ;
+ *  - Ajouter l'attribut '#[ORM\NomTable]' pour les collections de type ManyToMany (N-N).  
+ */
 class ORM {
   /**
-  * Récupère les enregistrements d'une table.
-  *
-  * @param string $modelClass classe modèle (avec namespace).
-  * @param string $selectFields champs à récupérer (par défaut '*').
-  * @param string|null $filter clause WHERE optionnelle pour filtrer les résultats.
-  * @return tableau d'objets récupérés.
-  */
+   * Récupère les enregistrements d'une table.
+   *
+   * @param string $modelClass classe modèle (avec namespace).
+   * @param string $selectFields champs à récupérer (par défaut '*').
+   * @param string|null $filter clause WHERE optionnelle pour filtrer les résultats.
+   * @return tableau d'objets récupérés.
+   */
   public static function getAll (string $modelClass, string $selectFields = '*', string $filter = null): array {
     $filter = ($filter != null ? ' WHERE ' . $filter : '');
     $stmt = PDOWrapper::getInstance()->query('SELECT ' . $selectFields . ' FROM ' . ORM::getBaseName($modelClass) . addslashes($filter));
@@ -38,13 +40,13 @@ class ORM {
   }
 
   /**
-  * Récupère un enregistrement d'une table à partir de son identifiant.
-  *
-  * @param string $modelClass classe modèle (avec namespace).
-  * @param mixed $id identifiant de l'enregistrement à récupérer.
-  * @param bool $followLinks pour charger (par défaut) ou pas les données des objets liés.
-  * @return objet récupéré ou null si non trouvé.
-  */
+   * Récupère un enregistrement d'une table à partir de son identifiant.
+   *
+   * @param string $modelClass classe modèle (avec namespace).
+   * @param mixed $id identifiant de l'enregistrement à récupérer.
+   * @param bool $followLinks pour charger (par défaut) ou pas les données des objets liés.
+   * @return objet récupéré ou null si non trouvé.
+   */
   public static function getOne (string $modelClass, mixed $id, bool $followLinks = true): mixed {
     $filter = ' WHERE id = ' . (!is_int($id) ? '\'' . addslashes($id) . '\'' : $id);
     $stmt = PDOWrapper::getInstance()->query('SELECT * FROM ' . ORM::getBaseName($modelClass) . $filter);
@@ -56,42 +58,81 @@ class ORM {
   }
 
   /**
-  * Ajoute ou modifie un enregistrement.
-  *
-  * @param mixed $obj objet à insérer ou mettre à jour.
-  * @return TRUE si un objet a été supprimé, FALSE si non trouvé.
-  */
+   * Ajoute ou modifie un enregistrement.
+   *
+   * @param mixed $obj objet à insérer ou mettre à jour.
+   */
   public static function persist (mixed $obj) {
     $table = ORM::getBaseName(get_class($obj));
-    $obj = ORM::getOne($objClass->getName(), $obj->getId(), false);
-    if (null == $obj) {
-        //TODO: INSERT INTO
+    
+    $columns = []; $values = []; $updates = []; $collections = [];
+    $reflect = new ReflectionClass($obj);
+    $modelClass = $reflect->getName();
+    foreach ( $reflect->getProperties() as $property) {
+      $propertyType = (string) $property->getType();
+      $propertyName = $property->getName();
+      $propertyValue = $property->getValue($obj);  
+      if ($propertyName != 'id') {
+        switch ($propertyType) {
+          case 'bool':
+          case 'int':
+          case 'float':
+            $columns[] = $propertyName;
+            $values[] = $propertyValue;
+            $updates[] = $columns[count($columns) - 1] . ' = ' . $values[count($columns) - 1];
+            break;
+          case 'string':
+          case 'DateTime':
+            $columns[] = $propertyName;
+            $values[] = "'" . addslashes((string) $propertyValue) . "'";
+            $updates[] = $columns[count($columns) - 1] . ' = ' . $values[count($columns) - 1];
+            break;
+          default: //is_object($propertyValue))
+            if (str_ends_with($propertyType, 'Collection')) {
+              $collections[] = $property;
+            } else {
+              $columns[] = 'id' . ucfirst($propertyName);
+              $values[] = $propertyValue->getId();
+              $updates[] = $columns[count($columns) - 1] . ' = ' . $values[count($columns) - 1];
+            }
+        }
+      }
+    }
+    
+    $existingObj = ORM::getOne($modelClass, $obj->getId(), false);
+    if (null == $existingObj) {
+      $sql = 'INSERT INTO ' . $table . '(' . implode(', ', $columns) . ') VALUES (' . implode(', ', $values) . ')';
+      if (0 == $obj->getId()) {
+        $obj->setId(PDOWrapper::getInstance()->lastInsertId());
+      }
     } else {
-        //TODO: UPDATE
+      $sql = 'UPDATE ' . $table . ' SET ' . implode(', ', $updates) . ' WHERE id = ' . $obj->getId();
+    }
+    PDOWrapper::getInstance()->exec($sql);
+    foreach($collections as $property) {
+      ORM::persistSubCollection($modelClass, $obj, $property);
     }
   }
 
   /**
-  * Supprime un enregistrement.
-  *
-  * @param mixed $obj objet à supprimer.
-  * @return TRUE si un objet a été supprimé, FALSE si non trouvé.
-  */
-  public static function delete (mixed $obj) : bool {
+   * Supprime un enregistrement.
+   *
+   * @param mixed $obj objet à supprimer.
+   */
+  public static function delete (mixed $obj) {
     $table = ORM::getBaseName(get_class($obj));
     $filter = 'id = ' . (!is_int($obj->getId()) ? '\'' . $obj->getId() . '\'' : $obj->getId());
-    return PDOWrapper::getInstance()->exec('DELETE FROM ' . $table . ' WHERE ' . $filter) == 1;
+    PDOWrapper::getInstance()->exec('DELETE FROM ' . $table . ' WHERE ' . $filter);
   }
 
   /**
-  * Supprime plusieurs enregistrement d'une table.
-  *
-  * @param string $modelClass classe modèle (avec namespace).
-  * @param string $filter clause WHERE pour sélectionner les enregistrements à supprimer.
-  * @return le nombre d'enregistrements supprimés.
-  */
-  public static function deleteMany (string $modelClass, string $filter): int{
-    return PDOWrapper::getInstance()->exec('DELETE FROM ' . ORM::getBaseName($modelClass) . ' WHERE ' . $filter);
+   * Supprime plusieurs enregistrement d'une table.
+   *
+   * @param string $modelClass classe modèle (avec namespace).
+   * @param string $filter clause WHERE pour sélectionner les enregistrements à supprimer.
+   */
+  public static function deleteMany (string $modelClass, string $filter) {
+    PDOWrapper::getInstance()->exec('DELETE FROM ' . ORM::getBaseName($modelClass) . ' WHERE ' . $filter);
   }
 
   private static function buildObj (string $modelClass, array $item, bool $followLinks = false) {
@@ -125,14 +166,37 @@ class ORM {
   private static function setSubCollection (string $modelClass, array $item, mixed $obj, ReflectionProperty $property): bool {
     $result = false;
     $typeName = (string) $property->getType();
+    $externClass = substr($typeName, 0, -10);
     if (str_ends_with($typeName, 'Collection')) {
       $externClassField = 'id' . ORM::getBaseName($modelClass);
-      $externClass = substr($typeName, 0, -10);
-      $items = ORM::getAll($externClass, '*', $externClassField . ' = ' . $obj->getId());
+      
+      $attributes = array_filter( $property->getAttributes(), fn($attr) => str_contains($attr->getName(), 'ORM\\Table\\'));
+      
+      if (count($attributes) == 1) { //if there is an intermediate table - cf ManyToMany (N-N)
+        $interClass = substr($attributes[0]->getName(), strpos($attributes[0]->getName(), 'ORM\\Table\\') + 10);
+        $stmt = PDOWrapper::getInstance()->query('SELECT id' . ORM::getBaseName($externClass) . ' FROM ' . $interClass . ' WHERE ' . $externClassField . ' = ' . $obj->getId());
+        $filter = 'id IN ' . '(' . implode(', ',  $stmt->fetchAll(PDO::FETCH_COLUMN, 0)) . ')';
+      
+      } else { //OneToMany (1-N)
+        $filter =  $externClassField . ' = ' . $obj->getId();
+      }
+      
+      $items = ORM::getAll($externClass, '*', $filter);
       $property->setValue($obj, new $typeName($items));
       $result = true;
     }
     return $result;
+  }
+  
+  private static function persistSubCollection (string $modelClass, mixed $obj, ReflectionProperty $property) {
+    $externClassField = 'id' . ORM::getBaseName($modelClass);
+    $attributes = array_filter( $property->getAttributes(), fn($attr) => str_contains($attr->getName(), 'ORM\\'));
+    if (count($attributes) == 1) { //if there is an intermediate table - cf ManyToMany (N-N)
+      $interClass = substr($attributes[0]->getName(), strpos($attributes[0]->getName(), 'ORM\\') + 4);
+      $stmt = PDOWrapper::getInstance()->query('DELETE FROM ' . ORM::getBaseName($interClass) . ' WHERE ' . 
+                                               $externClassField . ' = ' . $obj->getId());
+      //TODO: insert
+    }
   }
 
   private static function getBaseName(string $modelClass): string { // 'model\SomeClass' -> 'SomeClass'
@@ -144,3 +208,4 @@ class ORM {
     return join('\\', array_slice(explode('\\', $modelClass), 0, -1));
   }
 }
+
