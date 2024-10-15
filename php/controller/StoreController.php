@@ -5,16 +5,15 @@ use model\StoreCollection;
 
 class StoreController {
 
-    // Fonction pour afficher la page des boutiques
+    // Fonction pour afficher la liste des boutiques
     public function displayStores() {
-        // Création d'une collection de boutiques
+        // Instancier la collection de boutiques
         $storeCollection = new StoreCollection();
 
-        // Supposons que la méthode getStores() renvoie une liste des boutiques disponibles
+        // Récupérer les boutiques depuis la méthode getStores() du modèle
         $stores = $storeCollection->getStores();
 
-        // Afficher la vue (index.html par exemple)
+        // Inclure la vue avec les boutiques (par exemple index.php)
         include __DIR__ . '/../view/index.php';
     }
 }
-

@@ -8,19 +8,23 @@
 </head>
 <body>
     <header>
-        <h1>Nos Boutiques</h1>
+        <h1>Liste des Boutiques</h1>
     </header>
 
     <div class="container">
-        <?php foreach ($stores as $store): ?>
-        <div class="boutique">
-            <img src="<?= $store['image']; ?>" alt="<?= $store['name']; ?>">
-            <div>
-                <h2><?= $store['name']; ?></h2>
-                <p>Commune : <?= $store['commune']; ?><br><?= $store['description']; ?></p>
+        <?php if (!empty($stores)): ?>
+            <?php foreach ($stores as $store): ?>
+            <div class="boutique">
+                <div>
+                    <h2><?= htmlspecialchars($store['name']); ?></h2>
+                    <p>Numéro de registre : <?= htmlspecialchars($store['registrationNumber']); ?></p>
+                    <p>ID utilisateur : <?= htmlspecialchars($store['idUser']); ?></p>
+                </div>
             </div>
-        </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Aucune boutique trouvée.</p>
+        <?php endif; ?>
     </div>
 </body>
 </html>
