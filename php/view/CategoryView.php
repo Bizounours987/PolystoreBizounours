@@ -15,7 +15,7 @@ class CategoryView {
     public function renderOne($item,$products){
         if ($item) {
             echo "<h2>Détails de la catégorie</h2>";
-            echo "<p>ID : " . $item->getId() . "</p>";
+          //  echo "<p>ID : " . $item->getId() . "</p>";
             echo "<p>Label: " . $item->getLabel() . "</p>";
 
             // Affichage des produits de la catégorie
