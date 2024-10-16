@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos Boutiques</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
@@ -15,10 +15,11 @@
         <?php if (!empty($stores)): ?>
             <?php foreach ($stores as $store): ?>
             <div class="boutique">
+                <img src="static/img/Store/thumbs/<?=$store->getId()?>.webp" alt="<?=$store->getName()?>"/>
                 <div>
-                    <h2><?= htmlspecialchars($store['name']); ?></h2>
-                    <p>Numéro de registre : <?= htmlspecialchars($store['registrationNumber']); ?></p>
-                    <p>ID utilisateur : <?= htmlspecialchars($store['idUser']); ?></p>
+                    <h2><?= htmlspecialchars($store->getName()); ?></h2>
+                    <p>Numéro de registre : <?= htmlspecialchars($store->getRegistrationNumber()); ?></p>
+                    <p>ID utilisateur : <?= htmlspecialchars($store->getId()); ?></p>
                 </div>
             </div>
             <?php endforeach; ?>

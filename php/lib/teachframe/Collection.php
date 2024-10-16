@@ -16,8 +16,8 @@ use \IteratorAggregate;
 *    use teachframe\Collection;
 *    class NomClasseCollection extends Collection {}'
 *    class AutreClasse {
-        NomClasseCollection $items;
-      }
+*        NomClasseCollection $items;
+*      }
 * Le nom doit impérativement respecter la forme indiquée pour que l'ORM fonctionne.
 */
 abstract class Collection implements ArrayAccess, Countable, IteratorAggregate {
