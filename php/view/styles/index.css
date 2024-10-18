@@ -1,0 +1,62 @@
+/* Image de bannière */
+.banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 400px; /* Limite la hauteur de l'image pour qu'elle ne prenne pas trop de place */
+}
+
+/* Ajuster le texte sur l'image */
+header {
+    position: relative;
+    color: #fff;
+    text-align: center;
+}
+
+header h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour que le texte ressorte */
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+/* Navigation Menu */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+    
+    header h2 {
+        font-size: 2rem;
+    }
+}
