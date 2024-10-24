@@ -18,16 +18,16 @@ routes:
         controller: controller\CategoryController
         action: getOne
 
-    Order_getAll:
-        path: /order/
+    Purchase_getAll:
+        path: /purchase/
         method: GET
-        controller: controller\orderController
+        controller: controller\PurchaseController
         action: getAll
 
-    Order_getOne:
-        path: /order/{id}
+    Purchase_getOne:
+        path: /purchase/{id}
         method: GET
-        controller: controller\orderController
+        controller: controller\PurchaseController
         action: getOne
 
     Product_getAll:

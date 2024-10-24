@@ -11,9 +11,11 @@ INSERT INTO Store (name, registrationNumber, idUser) VALUES
 
 
 INSERT INTO Category (label, idCategory) VALUES
-('Jouets', NULL),
-('Livres', NULL),
-('Alimentation', NULL);
+('Jouets', 1),
+('Livres', 2),
+('Alimentation', 3),
+('PC', 4), 
+('Smartphone', 5);
 
 
 INSERT INTO Product (reference, label, unitPrice, idStore) VALUES

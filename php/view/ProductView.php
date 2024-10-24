@@ -26,7 +26,7 @@ class ProductView {
 
         $cats = $product->getCategories();
 
-        echo 'Liste des produits : ';
+        echo 'Détails du produit : ';
         echo '<dl>';
         echo '<dt>Reference :</dt><dd>' . $product->getReference() . '</dd>';
         echo '<dt>Label :</dt><dd>' . $product->getLabel() . '</dd>';
