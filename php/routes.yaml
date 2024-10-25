@@ -1,0 +1,71 @@
+routes:
+
+    default:
+        path: /
+        method: GET
+        controller: controller\DefaultController
+        action: index
+  
+    Category_getAll:
+        path: /category/
+        method: GET
+        controller: controller\CategoryController
+        action: getAll
+
+    Category_getOne:
+        path: /category/{id}
+        method: GET
+        controller: controller\CategoryController
+        action: getOne
+
+    Purchase_getAll:
+        path: /purchase/
+        method: GET
+        controller: controller\PurchaseController
+        action: getAll
+
+    Purchase_getOne:
+        path: /purchase/{id}
+        method: GET
+        controller: controller\PurchaseController
+        action: getOne
+
+    Product_getAll:
+        path: /product/
+        method: GET
+        controller: controller\ProductController
+        action: getAll
+
+    Product_getOne:
+        path: /product/{id}
+        method: GET
+        controller: controller\ProductController
+        action: getOne
+
+    Store_getAll:
+        path: /store/
+        method: GET
+        controller: controller\StoreController
+        action: getAll
+
+    Store_getOne:
+        path: /store/{id}
+        method: GET
+        controller: controller\StoreController
+        action: getOne
+
+    User_getAll:
+        path: /user/
+        method: GET
+        controller: controller\UserController
+        action: getAll
+
+    User_getOne:
+        path: /user/{id}
+        method: GET
+        controller: controller\UserController
+        action: getOne
+
+
+
+

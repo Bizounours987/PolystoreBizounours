@@ -1,0 +1,4 @@
+db:
+  dsn: mysql:host=polystore_db;dbname=polystore;charset=utf8
+  usr: polystore
+  pwd: P@ssw0rd

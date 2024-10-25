@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !\.(jpg|jpeg|png|webp|js|css)$
+RewriteCond %{REQUEST_URI} !^\?
+RewriteCond %{REQUEST_URI} !^/index\.php
+RewriteRule ^(.*)$ index.php?$1 [L]
