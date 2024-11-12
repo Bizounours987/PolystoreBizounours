@@ -1,7 +1,7 @@
-INSERT INTO User (firstName, lastName, email) VALUES
-('Alice', 'Dupont', 'alice.dupont@example.com'),
-('Bob', 'Martin', 'bob.martin@example.com'),
-('Claire', 'Leroy', 'claire.leroy@example.com');
+INSERT INTO User (firstName, lastName, email, login, mdp) VALUES
+('Alice', 'Dupont', 'alice.dupont@example.com', 'aliceD', 'Pass1234'),
+('Bob', 'Martin', 'bob.martin@example.com', 'bobM', 'Pass5678'),
+('Claire', 'Leroy', 'claire.leroy@example.com', 'claireL', 'Pass9012'));
 
 
 INSERT INTO Store (name, registrationNumber, idUser) VALUES

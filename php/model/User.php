@@ -6,15 +6,19 @@ class User {
 	protected string $firstName;
 	protected string $lastName;
 	protected string $email;
-	protected OrderCollection $orders;
+	protected string $login;
+	protected string $mdp;
+	protected PurchaseCollection $purchases;
 	protected StoreCollection $stores;
 
-	function __construct(int $id, string $firstName, string $lastName, string $email) {
+	function __construct(int $id, string $firstName, string $lastName, string $email, string $login, string $mdp) {
 		$this->id = $id;
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
 		$this->email = $email;
-		$this->orders = new OrderCollection();
+		$this->login = $login;
+		$this->mdp = $mdp;
+		$this->purchases = new PurchaseCollection();
 		$this->stores = new StoreCollection();
 	}
 
@@ -54,23 +58,41 @@ class User {
 		return $this->email;
 	}
 
-	public function getOrders(): OrderCollection {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
-		return $this->orders;
+	public function getLogin(): string {
+		return $this->login;
 	}
 
-	public function addOrder(Order $item): User {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
-		$this->orders[] = $item;
+	public function setLogin(string $login): string {
+		$this->login = $login;
+		return $this->login;
+	}
+
+	public function getMdp(): string {
+		return $this->mdp;
+	}
+
+	public function setMdp(string $mdp): string {
+		$this->mdp = $mdp;
+		return $this->mdp;
+	}
+
+	public function getPurchases(): PurchaseCollection {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
+		return $this->purchases;
+	}
+
+	public function addPurchase(Purchase $item): User {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
+		$this->purchases[] = $item;
 		return $this;
 	}
 
-	public function removeOrder(Order $item): User {
-		if (!isset($this->orders)) $this->orders = new OrderCollection();
-		$key = array_search($item, $this->orders);
+	public function removePurchase(Purchase $item): User {
+		if (!isset($this->purchases)) $this->purchases = new PurchaseCollection();
+		$key = array_search($item, $this->purchases);
 		if ($key !== false) {
-			unset($this->orders[$key]);
-			$this->orders = array_values($this->orders);
+			unset($this->purchases[$key]);
+			$this->purchases = array_values($this->purchases);
 		}
 		return $this;
 	}
