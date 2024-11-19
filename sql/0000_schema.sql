@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS User (
     id INT PRIMARY KEY AUTO_INCREMENT,
     firstName VARCHAR(50),
     lastName VARCHAR(50),
-    email VARCHAR(100),
+    email VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS Purchase (

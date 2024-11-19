@@ -66,6 +66,19 @@ routes:
         controller: controller\UserController
         action: getOne
 
+    Auth_getForm:
+        path: /auth/
+        method: GET
+        controller: controller\AuthController
+        action: getForm
+
+    Auth_submitForm:
+        path: /auth/
+        method: POST
+        controller: controller\AuthController
+        action: submitForm
+
+
 
 
 
